@@ -1,18 +1,28 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
-  const nayoks=['jasim','dipjol','bapparaz','manna'];
+  const [nayoks,setNayoks] = useState([]);
+  useEffect(()=> {
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then (res=> res.json())
+    .then (data=> setNayoks(data))
+  } , [])
+
+
+  // const nayoks=[{name:'jasim', age:45, BestMovie:'KGF'},{name:'dipjol', age: 56, BestMovie:'K3G'},{name:'bapparaz', age:45,BestMovie:'3 Idiots'},{name:'manna', age: 34,BestMovie:'Koti takar kabin'},{name:'Alomgir', age:66}];
+
+
   return (
     <div className="App">
       
       <MovieCounter></MovieCounter>
+      {
+        nayoks.map(nayok => <Nayok name={nayok.name} email={nayok.email} username={nayok.username}></Nayok> )
+      }
 
-      <Nayok name={nayoks[0]} job="Actor"></Nayok>
-      <Nayok name= "Shakib khan"></Nayok>
-      <Nayok name= {nayoks[1]}></Nayok>
-      <Nayok name="BappaRaz"></Nayok>
+      
       <header className="App-header">
         
       </header>
@@ -27,8 +37,9 @@ function Nayok(props){
     margin: '20px'
   }
   return (<div style={nayokStyle}>
-    <h1>Hero: {props.name}</h1>
-    <h3>Job:{props.job || 'Hero'}</h3>
+    <h1>Name: {props.name}</h1>
+    <h3>Email:{props.email || '100'}</h3>
+    <h3>User Name: {props.username}</h3>
   </div>)
 }
 
